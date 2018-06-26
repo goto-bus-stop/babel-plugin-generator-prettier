@@ -43,6 +43,25 @@ test('generatorOpts', function (t) {
   ` + '\n')
 })
 
+test('comments', function (t) {
+  t.plan(1)
+  var result = babel.transformSync(`
+    whatever(
+    // test
+    'a long string and some arguments', 'that will hopefully cause prettier to wrap this',
+    /* har har */ { oh: 'em', gee }
+    )
+  `, { plugins: [prettier] })
+  t.equal(result.code, dedent`
+    whatever(
+      // test
+      "a long string and some arguments",
+      "that will hopefully cause prettier to wrap this",
+      /* har har */ { oh: "em", gee }
+    );
+  ` + '\n')
+})
+
 // Currently unsupported
 test('source maps', { skip: true }, function (t) {
   t.plan(1)

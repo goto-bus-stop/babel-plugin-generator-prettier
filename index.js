@@ -16,7 +16,14 @@ var optionKeys = [
 ]
 
 function print (ast, opts, input) {
-  var formatOpts = { originalText: input }
+  var formatOpts = {
+    // By using a custom parser we can use the already parsed AST.
+    // This is better than using __debug.formatAST, because this way prettier still handles comments;
+    // comments would be lost when using the formatAST API.
+    parser: function () {
+      return ast
+    }
+  }
 
   for (var i = 0; i < optionKeys.length; i++) {
     if (has(opts, optionKeys[i])) {
@@ -24,10 +31,10 @@ function print (ast, opts, input) {
     }
   }
 
-  var result = prettier.__debug.formatAST(ast.program, formatOpts)
+  var result = prettier.format(input, formatOpts)
 
   return {
-    code: result.formatted
+    code: result
   }
 }
 
