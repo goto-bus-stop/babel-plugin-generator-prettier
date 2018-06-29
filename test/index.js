@@ -2,6 +2,7 @@ var test = require('tape')
 var prettier = require('..')
 var dedent = require('dedent')
 var babel = require('@babel/core')
+var SourceMapConsumer = require('source-map').SourceMapConsumer
 
 test('printing', function (t) {
   t.plan(1)
@@ -62,10 +63,9 @@ test('comments', function (t) {
   ` + '\n')
 })
 
-// Currently unsupported
-test('source maps', { skip: true }, function (t) {
-  t.plan(1)
-  var result = babel.transformSync(`
+test('source maps', function (t) {
+  t.plan(4)
+  var result = babel.transformSync(dedent`
     function a() {return test }
     const test=a
     test(  ''
@@ -77,6 +77,7 @@ test('source maps', { skip: true }, function (t) {
       prettier
     ]
   })
+
   t.equal(result.code, dedent`
     function b() {
       return a;
@@ -85,4 +86,13 @@ test('source maps', { skip: true }, function (t) {
     a("");
   ` + '\n')
   t.ok(result.map)
+
+  var map = new SourceMapConsumer(result.map)
+  // the `a` in `const a = b`
+  var original = map.originalPositionFor({
+    line: 4,
+    column: 6
+  })
+  t.equal(original.line, 2)
+  t.equal(original.column, 6)
 })

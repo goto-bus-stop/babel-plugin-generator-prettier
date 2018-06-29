@@ -4,9 +4,6 @@ Babel plugin to use prettier for transformed code output
 
 > Requires Babel 7.
 
-> This plugin currently does not support source maps.
-> When using this plugin, no source maps will be generated.
-
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 [![standard][standard-image]][standard-url]
