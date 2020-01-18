@@ -8,12 +8,22 @@ var optionKeys = [
   'useTabs',
   'semi',
   'singleQuote',
+  'quoteProps',
+  'jsxSingleQuote',
   'trailingComma',
   'bracketSpacing',
   'jsxBracketSameLine',
   'arrowParens',
+  'rangeStart',
+  'rangeEnd',
+  'parser',
+  'filepath',
   'requirePragma',
-  'insertPragma'
+  'insertPragma',
+  'proseWrap',
+  'htmlWhitespaceSensitivity',
+  'vueIndentScriptAndStyle',
+  'endOfLine'
 ]
 
 function print (parse, ast, opts, input) {
