@@ -14,15 +14,8 @@ var optionKeys = [
   'bracketSpacing',
   'jsxBracketSameLine',
   'arrowParens',
-  'rangeStart',
-  'rangeEnd',
-  'parser',
-  'filepath',
   'requirePragma',
   'insertPragma',
-  'proseWrap',
-  'htmlWhitespaceSensitivity',
-  'vueIndentScriptAndStyle',
   'endOfLine'
 ]
 
