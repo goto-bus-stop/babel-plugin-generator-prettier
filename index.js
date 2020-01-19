@@ -8,12 +8,15 @@ var optionKeys = [
   'useTabs',
   'semi',
   'singleQuote',
+  'quoteProps',
+  'jsxSingleQuote',
   'trailingComma',
   'bracketSpacing',
   'jsxBracketSameLine',
   'arrowParens',
   'requirePragma',
-  'insertPragma'
+  'insertPragma',
+  'endOfLine'
 ]
 
 function print (parse, ast, opts, input) {
