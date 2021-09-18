@@ -3,6 +3,20 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  lint:
+    name: Code style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Install Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: npm install
+      - name: Check code style
+        run: npm run lint
   test:
     name: Tests
     runs-on: ubuntu-latest
@@ -19,4 +33,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: npm test
+        run: npm run tests-only
