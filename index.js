@@ -1,8 +1,8 @@
-var prettier = require('prettier')
-var has = require('has')
-var SourceMapGenerator = require('source-map').SourceMapGenerator
+const prettier = require('prettier')
+const has = require('has')
+const SourceMapGenerator = require('source-map').SourceMapGenerator
 
-var optionKeys = [
+const optionKeys = [
   'printWidth',
   'tabWidth',
   'useTabs',
@@ -20,7 +20,7 @@ var optionKeys = [
 ]
 
 function print (parse, ast, opts, input) {
-  var formatOpts = {
+  const formatOpts = {
     // By using a custom parser we can use the already parsed AST.
     // This is better than using __debug.formatAST, because this way prettier still handles comments;
     // comments would be lost when using the formatAST API.
@@ -29,19 +29,19 @@ function print (parse, ast, opts, input) {
     }
   }
 
-  var filename = opts.sourceFileName
+  const filename = opts.sourceFileName
 
-  for (var i = 0; i < optionKeys.length; i++) {
+  for (let i = 0; i < optionKeys.length; i++) {
     if (has(opts, optionKeys[i])) {
       formatOpts[optionKeys[i]] = opts[optionKeys[i]]
     }
   }
 
-  var result = prettier.format(input, formatOpts)
-  var map = null
+  const result = prettier.format(input, formatOpts)
+  let map = null
 
   if (opts.sourceMaps) {
-    var parsed = parse(result)
+    const parsed = parse(result)
     map = generateSourceMap(ast, parsed, {
       file: filename,
       source: input
@@ -57,7 +57,7 @@ function print (parse, ast, opts, input) {
 module.exports = function generatorPrettier (api) {
   api.assertVersion(7)
 
-  var parseOptions = {}
+  let parseOptions = {}
   function parse (code) {
     return api.parseSync(code, parseOptions.parserOpts)
   }
@@ -75,7 +75,7 @@ function isNode (node) {
 }
 
 function generateSourceMap (left, right, opts) {
-  var generator = new SourceMapGenerator({ file: opts.file })
+  const generator = new SourceMapGenerator({ file: opts.file })
   generator.setSourceContent(opts.file, opts.input)
 
   walk(left, right, function (sourceNode, formattedNode) {
@@ -94,10 +94,10 @@ function generateSourceMap (left, right, opts) {
   return generator.toJSON()
 
   function walk (left, right, visit) {
-    var cont = visit(left, right)
+    const cont = visit(left, right)
     if (cont === false) return
 
-    for (var k in left) {
+    for (const k in left) {
       if (has(left, k)) {
         if (isNode(left[k]) && isNode(right[k])) {
           walk(left[k], right[k], visit)
@@ -109,7 +109,7 @@ function generateSourceMap (left, right, opts) {
   }
 
   function walkArray (left, right, visit) {
-    for (var i = 0; i < left.length; i++) {
+    for (let i = 0; i < left.length; i++) {
       if (isNode(left[i]) && isNode(right[i])) walk(left[i], right[i], visit)
     }
   }

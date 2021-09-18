@@ -1,12 +1,12 @@
-var test = require('tape')
-var prettier = require('..')
-var dedent = require('dedent')
-var babel = require('@babel/core')
-var SourceMapConsumer = require('source-map').SourceMapConsumer
+const test = require('tape')
+const prettier = require('..')
+const dedent = require('dedent')
+const babel = require('@babel/core')
+const SourceMapConsumer = require('source-map').SourceMapConsumer
 
 test('printing', function (t) {
   t.plan(1)
-  var result = babel.transformSync(`
+  const result = babel.transformSync(`
     function a() {return test }
     const test=a
     test(  ''
@@ -23,7 +23,7 @@ test('printing', function (t) {
 
 test('generatorOpts', function (t) {
   t.plan(1)
-  var result = babel.transformSync(`
+  const result = babel.transformSync(`
     function a() {return test }
     const test=a
     test(  ''
@@ -46,7 +46,7 @@ test('generatorOpts', function (t) {
 
 test('comments', function (t) {
   t.plan(1)
-  var result = babel.transformSync(`
+  const result = babel.transformSync(`
     whatever(
     // test
     'a long string and some arguments', 'that will hopefully cause prettier to wrap this',
@@ -65,7 +65,7 @@ test('comments', function (t) {
 
 test('source maps', function (t) {
   t.plan(4)
-  var result = babel.transformSync(dedent`
+  const result = babel.transformSync(dedent`
     function a() {return test }
     const test=a
     test(  ''
@@ -87,9 +87,9 @@ test('source maps', function (t) {
   ` + '\n')
   t.ok(result.map)
 
-  var map = new SourceMapConsumer(result.map)
+  const map = new SourceMapConsumer(result.map)
   // the `a` in `const a = b`
-  var original = map.originalPositionFor({
+  const original = map.originalPositionFor({
     line: 4,
     column: 6
   })
