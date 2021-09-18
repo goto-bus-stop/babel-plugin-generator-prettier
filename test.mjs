@@ -1,18 +1,18 @@
-import test from 'tape'
+import { test } from 'uvu'
+import { strict as assert } from 'assert'
 import prettier from 'babel-plugin-generator-prettier'
 import dedent from 'dedent'
 import babel from '@babel/core'
 import { SourceMapConsumer } from 'source-map'
 
-test('printing', function (t) {
-  t.plan(1)
-  const result = babel.transformSync(`
+test('printing', async function () {
+  const result = await babel.transformAsync(`
     function a() {return test }
     const test=a
     test(  ''
     )
   `, { plugins: [prettier] })
-  t.equal(result.code, dedent`
+  assert.equal(result.code, dedent`
     function a() {
       return test;
     }
@@ -21,9 +21,8 @@ test('printing', function (t) {
   ` + '\n')
 })
 
-test('generatorOpts', function (t) {
-  t.plan(1)
-  const result = babel.transformSync(`
+test('generatorOpts', async function () {
+  const result = await babel.transformAsync(`
     function a() {return test }
     const test=a
     test(  ''
@@ -35,7 +34,7 @@ test('generatorOpts', function (t) {
       singleQuote: true
     }
   })
-  t.equal(result.code, dedent`
+  assert.equal(result.code, dedent`
     function a() {
       return test
     }
@@ -44,16 +43,15 @@ test('generatorOpts', function (t) {
   ` + '\n')
 })
 
-test('comments', function (t) {
-  t.plan(1)
-  const result = babel.transformSync(`
+test('comments', async function () {
+  const result = await babel.transformAsync(`
     whatever(
     // test
     'a long string and some arguments', 'that will hopefully cause prettier to wrap this',
     /* har har */ { oh: 'em', gee }
     )
   `, { plugins: [prettier] })
-  t.equal(result.code, dedent`
+  assert.equal(result.code, dedent`
     whatever(
       // test
       "a long string and some arguments",
@@ -63,9 +61,8 @@ test('comments', function (t) {
   ` + '\n')
 })
 
-test('source maps', function (t) {
-  t.plan(4)
-  const result = babel.transformSync(dedent`
+test('source maps', async function () {
+  const result = await babel.transformAsync(dedent`
     function a() {return test }
     const test=a
     test(  ''
@@ -78,14 +75,14 @@ test('source maps', function (t) {
     ]
   })
 
-  t.equal(result.code, dedent`
+  assert.equal(result.code, dedent`
     function b() {
       return a;
     }
     const a = b;
     a("");
   ` + '\n')
-  t.ok(result.map)
+  assert.ok(result.map)
 
   const map = new SourceMapConsumer(result.map)
   // the `a` in `const a = b`
@@ -93,6 +90,8 @@ test('source maps', function (t) {
     line: 4,
     column: 6
   })
-  t.equal(original.line, 2)
-  t.equal(original.column, 6)
+  assert.equal(original.line, 2)
+  assert.equal(original.column, 6)
 })
+
+test.run()

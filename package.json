@@ -16,8 +16,7 @@
     "babel-plugin-minify-mangle-names": "^0.5.0",
     "dedent": "^0.7.0",
     "standard": "^16.0.3",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.0.1"
+    "uvu": "^0.5.1"
   },
   "exports": {
     ".": "./index.js",
@@ -45,6 +44,6 @@
   "scripts": {
     "test": "npm run lint && npm run tests-only",
     "lint": "standard",
-    "tests-only": "node test.mjs | tap-spec"
+    "tests-only": "node test.mjs"
   }
 }
