@@ -1,8 +1,8 @@
-const test = require('tape')
-const prettier = require('..')
-const dedent = require('dedent')
-const babel = require('@babel/core')
-const SourceMapConsumer = require('source-map').SourceMapConsumer
+import test from 'tape'
+import prettier from 'babel-plugin-generator-prettier'
+import dedent from 'dedent'
+import babel from '@babel/core'
+import { SourceMapConsumer } from 'source-map'
 
 test('printing', function (t) {
   t.plan(1)
