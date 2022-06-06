@@ -9,7 +9,7 @@
   "dependencies": {
     "has": "^1.0.3",
     "prettier": "^2.4.1",
-    "source-map": "^0.5.7"
+    "source-map": "^0.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
